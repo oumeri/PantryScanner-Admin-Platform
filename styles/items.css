@@ -1,0 +1,152 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.title{
+    font-family: 'Outfit';
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.navbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 25px;
+    font-family: 'Outfit';
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.navbar a{
+    margin: 50px;
+    text-decoration: none;
+    color: #000000;
+    padding: 10px;
+}
+
+.navbar a:hover,
+.navbar a:active{
+    border-radius: 10px;
+    background-color: #3BD752;
+    color: #ffffff;
+}
+
+.main{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+.container{
+    width: 420px;
+    height: 601px;
+    background-color: #3BD752;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 10px;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+.sTitle{
+    font-family: 'Outfit';
+    font-weight: 600;
+    font-size: 24px;
+    color: #ffffff;
+    margin-top: 27px;
+    margin-bottom: 27px;
+}
+
+.button{
+    width: 125px;
+    height: 40px;
+    border: none;
+    border-radius: 15px;
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Outfit';
+    font-weight: 700;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 20px 20px 20px;
+}
+
+#searchItem input{
+   border-radius: 10px;
+   width: 300px;
+   height: 36px;
+   border: solid #B5B0B0 1px;
+   font-family: 'Outfit';
+   padding-left: 10px;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+input[type="search"] {
+    -moz-appearance: textfield;
+}
+
+#addItem .inputs{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#addItem .inputs input{
+    width: 300px;
+    height: 36px;
+    border-radius: 10px;
+    border: solid #B5B0B0 1px;
+    font-family: 'Outfit';
+    margin-bottom: 30px;
+    padding-left: 10px;
+}
+
+
+#manageItem .itemsContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.item{
+    display: flex;
+    flex-direction: row;
+    width: 377px;
+    height: 92px;
+    border-radius: 10px;
+    background-color: #39a349cc;
+    margin-bottom: 20px;
+    font-family: 'Outfit';
+    font-size: 20px;
+    color: #ffffff;
+    padding-left: 15px;
+}
+
+.item #name{
+    font-weight: 600;
+}
+
+.itemImg{
+    margin-top: 10px;
+}
+
+.typeInfo{
+    padding: 20px 0 20px 32px;
+}
+
+::-webkit-scrollbar{
+    width: 0px;
+}
