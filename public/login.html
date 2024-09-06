@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script type="module" src="../firebaseauth.js"></script>
 </head>
 
 <body>
@@ -22,10 +23,12 @@
         <div class="form">
             <p id="logInTitle">Log In</p>
 
+            <!--Displays a message concerning the loging-->
+            <div id="logInMessage" class="messageDiv" style="display:none"></div>
             <form class="textFields">
                 <input id="email" type="email" required placeholder="e-mail">
                 <input id="password" type="password" required placeholder="password">
-                <input class="button" id="logInButt" type="submit" value="Log In">
+                <button class="button" id="logInButt" onclick="logIn">Log In</button>
             </form>
         </div>
     </main>
