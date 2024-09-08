@@ -1,9 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";;
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { getFirestore, getDoc, doc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-
+//Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBAMoXXWgjghBDnzxJG3umZ5JXUP38SgdY",
   authDomain: "pantryscanner-dca28.firebaseapp.com",
@@ -17,6 +17,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+//Function that display messages to the user
 function showMessage(message, divId){
     let messageDiv = document.getElementById(divId);
     messageDiv.style.display = 'block';
@@ -27,21 +28,54 @@ function showMessage(message, divId){
     },5000);
 };
 
+//Adding interactivity to the login button
 const logIn = document.getElementById('logInButt');
 logIn.addEventListener('click', (event) => {
     event.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
+    //Initializing firebase authentication
     const auth = getAuth();
+    //Initializing firestore
     const db = getFirestore();
 
+    //Function that verifies credentials
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-        showMessage('login is successfulm', 'logInMessage');
+        showMessage('Processing...', 'logInMessage');
         const user = userCredential.user;
+
+        //Saves the user's id locally
         localStorage.setItem('loggedInUserId', user.uid);
-        window.location.href = '../public/items.html';
+        //Adds the user's id to variable loggedInUser
+        const loggedInUserId = localStorage.getItem('loggedInUserId');
+
+        //Gets the document of the connected user from the profiles collection
+        const docRef = doc(db,'profiles', loggedInUserId);
+        getDoc(docRef)
+        .then((docSnap) => {
+            //Verifies if the document exists in the firestore database
+            if(docSnap.exists()){
+                //Retrieves the value of the field 'admin' inside the user's document
+                const userCheck = docSnap.data().admin;
+                if(userCheck === true){
+                    showMessage('Logged in successfully', 'logInMessage');
+                    window.location.href = '../public/items.html';
+                }
+                else{
+                    showMessage('Incorrect Email or Password', 'logInMessage');
+                }
+            }
+            else{
+                showMessage('Incorrect Email or Password', 'logInMessage');
+            }
+        })
+        .catch((e) => {
+            showMessage('Incorrect Email or Password', 'logInMessage');
+            console.log(e.message)
+        });
+        
     })
     .catch((e) => {
         const eCode = e.code;
