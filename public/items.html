@@ -32,6 +32,8 @@
         <a href="account.html">Account</a>
     </nav>
 
+    <div id="userMessage" class="messageDiv" style="display:none"></div>
+
     <main class="main">
         <div class="container" id="searchItem">
             <p class="sTitle">Search for an item</p>
@@ -41,9 +43,9 @@
         <div class="container" id="addItem">
             <p class="sTitle">Add a new item</p>
             <section class="inputs">
-                <input type="text" placeholder="Name">
-                <input type="text" placeholder="Type">
-                <button class="button">Add item</button>
+                <input id="itemName" type="text" placeholder="Name">
+                <input id="itemType" type="text" placeholder="Type">
+                <button id="addItemButt" class="button">Add item</button>
             </section>
         </div>
         
@@ -92,3 +94,5 @@
 </body>
 
 </html>
+
+
