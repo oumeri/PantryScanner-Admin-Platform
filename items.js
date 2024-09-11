@@ -139,9 +139,6 @@ document.getElementById('addItem').addEventListener('click', async (event) => {
     const tips = document.getElementById('itemTips').value;
     const valPeriodFridge = document.getElementById('itemValPeriodFridge').value;
     const valPeriodOut = document.getElementById('itemValPeriodOut').value;
-
-    console.log([itemName, itemType, family]);
-
     //Adding a new document for the item in the db
     try{
       await addDoc(itemsCollectionRef, {
@@ -170,3 +167,31 @@ document.getElementById('addItem').addEventListener('click', async (event) => {
     };
   }
 });
+
+//Searching for an item by name
+
+document.getElementById('searchItem').addEventListener('keydown', async (event) => {
+  if(event.key == 'Enter'){
+    event.preventDefault();
+    //A variable for the name typed by the user
+    const searchedItemName = document.getElementById('searchedItem').value;
+    //Initialzie a query for the searched item
+    const itemQuery = query(itemsCollectionRef, where('name', '==', searchedItemName));
+    //Querying the specified document
+    const querySnap = await getDocs(itemQuery);
+    //Verify if the document exists or not
+    if(!querySnap.empty){
+      querySnap.forEach((doc) => {
+        const itemData = doc.data();
+        console.log(itemData);
+      })
+    }
+    else{
+      showMessage('Item not found', 'userMessage');
+    }
+    console.log(searchedItemName);
+  }
+})
+
+//Displaying the last added items
+
