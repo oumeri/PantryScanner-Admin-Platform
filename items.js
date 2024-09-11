@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getFirestore, getDoc, doc, collection, query, where, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { getFirestore, getDoc, doc, collection, query, where, getDocs, addDoc, limit } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 //Firebase configuration
 const firebaseConfig = {
@@ -194,4 +194,34 @@ document.getElementById('searchItem').addEventListener('keydown', async (event) 
 })
 
 //Displaying the last added items
+//Collecting the name and type of the 5 last added items
+try{
+  const itemQuery = query(itemsCollectionRef, limit(5));
+  const querySnap  = await getDocs(itemQuery);
+  //Array of the item's data
+  const itemsData = [];
+  querySnap.forEach((doc) => {
+      itemsData.push(doc.data());
+  });
+  //Display the name and type on the cards
+  const itemCards = document.querySelectorAll('.item');
+  // Hide extra item cards
+  for (let i = itemsData.length; i < itemCards.length; i++) {
+    itemCards[i].style.display = 'none';
+  }
+  itemsData.forEach((item, index) => {
+    if (index < itemCards.length) {
+      const itemCard = itemCards[index];
+      // Update the name and type
+      itemCard.querySelector('.typeInfo #name').textContent = item.name;
+      itemCard.querySelector('.typeInfo #type').textContent = item.type;
+    } 
+  });
+}
+catch(e){
+  console.log(e.message);
+};
+
+
+
 
