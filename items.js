@@ -131,11 +131,11 @@ document.getElementById('addItem').addEventListener('click', async (event) => {
     const itemsCollectionRef = collection(db,'items');
     //Variables for the info fields
     const family = document.getElementById('itemFamily').value;
-    const calories = document.getElementById('itemCalories').value;
-    const carbs = document.getElementById('itemCarbs').value;
-    const protein = document.getElementById('itemProtein').value;
-    const fat = document.getElementById('itemFat').value;
-    const sugar = document.getElementById('itemSugar').value;
+    const calories = parseFloat(document.getElementById('itemCalories').value);
+    const carbs = parseFloat(document.getElementById('itemCarbs').value);
+    const protein = parseFloat(document.getElementById('itemProtein').value);
+    const fat = parseFloat(document.getElementById('itemFat').value);
+    const sugar = parseFloat(document.getElementById('itemSugar').value);
     const tips = document.getElementById('itemTips').value;
     const valPeriodFridge = document.getElementById('itemValPeriodFridge').value;
     const valPeriodOut = document.getElementById('itemValPeriodOut').value;
