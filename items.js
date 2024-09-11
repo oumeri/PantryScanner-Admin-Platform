@@ -82,8 +82,10 @@ const addItemButt = document.getElementById('addItemButt');
 addItemButt.addEventListener('click', async (event) => {
     event.preventDefault();
     //Variables for the name and type fields
-    let itemName = document.getElementById('itemName').value;
-    let itemType = document.getElementById('itemType').value;
+    const itemName = document.getElementById('itemName').value;
+    localStorage.setItem('itemNameStore', itemName)
+    const itemType = document.getElementById('itemType').value;
+    localStorage.setItem('itemTypeStore', itemType);
     if(!itemName || !itemType){
       showMessage('Please enter a name and a type', 'userMessage');
     }
@@ -116,45 +118,55 @@ addItemButt.addEventListener('click', async (event) => {
     }
 });
 
-//Confirm adding the item to the db
-document.getElementById('confirmItemButt').addEventListener('click', async (event) => {
-  event.preventDefault();
-  //Variables for the name and type fields
-  const itemName = document.getElementById('itemName').value;
-  const itemType = document.getElementById('itemType').value;
-  //Create a ref to to the item's collection
-  const itemsCollectionRef = collection(db,'items');
-  //Variables for the info fields
-  let family = document.getElementById('itemFamily').value;
-  let calories = document.getElementById('itemCalories').value;
-  let carbs = document.getElementById('itemCarbs').value;
-  let protein = document.getElementById('itemProtein').value;
-  let fat = document.getElementById('itemFat').value;
-  let sugar = document.getElementById('itemSugar').value;
-  let tips = document.getElementById('itemTips').value;
-  let valPeriodFridge = document.getElementById('itemValPeriodFridge').value;
-  let valPeriodOut = document.getElementById('itemValPeriodOut').value;
-  //Adding a new document for the item in the db
-  try{
-    await addDoc(itemsCollectionRef, {
-      family: family,
-      name: itemName,
-      type: itemType,
-      calories: calories,
-      carbohydrates: carbs,
-      fat: fat,
-      protein: protein,
-      sugar: sugar,
-      tips: tips,
-      fridge: valPeriodFridge,
-      pantry: valPeriodOut,
-    });
-    showMessage('Item added successfully', 'userMessage');
-    document.getElementById('addItem').innerHTML = addItemContOriginal;
 
+// Attach the event listener to the parent container (addItem) instead of the button itself
+document.getElementById('addItem').addEventListener('click', async (event) => {
+  // Check if the click event is coming from the confirmItemButt button
+  if (event.target && event.target.id === 'confirmItemButt') {
+    event.preventDefault();
+    //Variables for the name and type fields
+    const itemName = localStorage.getItem('itemNameStore');
+    const itemType = localStorage.getItem('itemTypeStore');
+    //Create a ref to to the item's collection
+    const itemsCollectionRef = collection(db,'items');
+    //Variables for the info fields
+    const family = document.getElementById('itemFamily').value;
+    const calories = document.getElementById('itemCalories').value;
+    const carbs = document.getElementById('itemCarbs').value;
+    const protein = document.getElementById('itemProtein').value;
+    const fat = document.getElementById('itemFat').value;
+    const sugar = document.getElementById('itemSugar').value;
+    const tips = document.getElementById('itemTips').value;
+    const valPeriodFridge = document.getElementById('itemValPeriodFridge').value;
+    const valPeriodOut = document.getElementById('itemValPeriodOut').value;
+
+    console.log([itemName, itemType, family]);
+
+    //Adding a new document for the item in the db
+    try{
+      await addDoc(itemsCollectionRef, {
+        family: family,
+        name: itemName,
+        type: itemType,
+        nutrition_facts:{
+          calories: calories,
+          carbohydrates: carbs,
+          fat: fat,
+          protein: protein,
+          sugar: sugar,
+        },
+        validity_period:{
+          fridge: valPeriodFridge,
+          pantry: valPeriodOut,
+        },
+        tips: tips,
+      });
+      showMessage('Item added successfully', 'userMessage');
+      document.getElementById('addItem').innerHTML = addItemContOriginal;
+    }
+    catch (e){
+      showMessage('A problem occured when adding the item, please try again', 'userMessage');
+      console.log(e.message);
+    };
   }
-  catch (e){
-    showMessage('A problem occured when adding the item, please try again', 'userMessage');
-    console.log(e.message);
-  };
 });
